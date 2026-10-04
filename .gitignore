@@ -1,0 +1,10 @@
+build/
+.gradle/
+out/
+*.class
+.metals/
+.vscode/
+.DS_*
+.DS_Store
+
+.fake
