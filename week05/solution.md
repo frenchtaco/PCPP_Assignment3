@@ -18,12 +18,14 @@ File: ConcurrentIntegerSet.java
 | 5 | writes `size = 6` | | `size = 6` |
 | 6 | | writes `size = 6` | `size = 6` |
 
+The interleaving above highlights a sizing issue, where two threads, T1 and T2, both add values to the set. When doing this concurrently, T2 does not see that the size has been incremented yet by T1, and so we end up in a situation where they both see the size as 5 and increments to 6. 
+
 ---
 ### 5.1.2) Implement a functional correctness test that finds concurrency errors in the remove(Integer element) method in ConcurrentIntegerSetBuggy. Descrfibe the interleaving that your test finds.
 
 ---
 
-Same as above, they will mutating the same buckets across threads which leads to unpredictable mutations and interleavings.
+Same as above, T1 and T2 will again mutate on the same size, resulting in a data race, i.e. unintended behaviour.
 
 ---
 ### 5.1.3) In the class ConcurrentIntegerSetSync, implement fixes to the errors you found in the previous exercises. Run the tests again to increase your confidence that your updates fixed the problems. In addition, explain why your solution fixes the problems discovered by your tests.
