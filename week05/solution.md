@@ -9,8 +9,14 @@ Note: Run tests using `$ gradle cleanTest test --tests <package>.<test_class>`
 
 File: ConcurrentIntegerSet.java
 
-We suppose that given that the values do not match on every single test, there is a scenario where two threads tries to insert a value into the set on the same bucket, which makes one thread overwrite the addition from the other thread, i.e. a data race.
- 
+| Step | T1 `add(3)` | T2 `add(7)` | State |
+|------|-------------|-------------|-------|
+| 1 | inserts node 3 into its bucket | | `size = 5` |
+| 2 | | inserts node 7 into its bucket | `size = 5` |
+| 3 | reads `size` (5) | | |
+| 4 | | reads `size` (5) | |
+| 5 | writes `size = 6` | | `size = 6` |
+| 6 | | writes `size = 6` | `size = 6` |
 
 ---
 ### 5.1.2) Implement a functional correctness test that finds concurrency errors in the remove(Integer element) method in ConcurrentIntegerSetBuggy. Descrfibe the interleaving that your test finds.
